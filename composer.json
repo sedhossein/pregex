@@ -2,14 +2,35 @@
     "name": "sedhossein/pregex",
     "description": "Recommended regex's For Persian/Farsi(fa) Language",
     "type": "library",
+    "license": "MIT",
+    "version": "0.1.1",
     "authors": [
         {
             "name": "S.Hossein Hosseini (Sedhossein)",
-            "email": "seyedhosein77@gmail.com"
+            "email": "seyedhosein77@gmail.com" ,
+            "homepage": "http://sedhossein.ir",
+            "role": "Developer"
         }
     ],
     "require": {
         "php": "^5.6.37 || ^7.0",
-        "another-vendor/package": "1.*"
+    },
+    "keywords": ["Laravel","Regex","Persian Regex","Pregex", "Sedhossein"],
+    "require-dev" : {
+        "phpunit/phpunit": "~4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Sedhossein\\Pregex\\": "src"
+        },
+        "files": [
+            "src/helpers.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Sedhossein\\Pregex\\Tests\\": "tests/"
+        }
     }
+
 }
