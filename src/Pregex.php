@@ -245,9 +245,9 @@ class Pregex
     {
         return (bool) preg_match("/^(\d{5}-?\d{5})$/", $value);
     }
-    
-    
-    
+
+
+
 
     /**
      * Combine And Join The Multi Regex together For Make Final Regex
