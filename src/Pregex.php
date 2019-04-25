@@ -145,7 +145,12 @@ class Pregex
         return preg_match(self::get_char_regex(), $string);
     }
 
-
+    /**
+     *  Return Boolean
+     *  Check Email Structur is correct or Not
+     * @param $string email
+     * @return false|int
+     */
     public function is_valid_email($email)
     {
         return filter_var($email, FILTER_VALIDATE_EMAIL);
