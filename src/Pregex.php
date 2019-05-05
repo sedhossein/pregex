@@ -89,8 +89,8 @@ class Pregex
     public static function get_number_regex()
     {
         return self::combine_regex_exps([
-            self::$arabic_numbers_codepoints,
-//            self::$persian_num_codepoints
+//            self::$arabic_numbers_codepoints,
+            self::$persian_num_codepoints
         ]);
     }
 
@@ -222,12 +222,12 @@ class Pregex
             $value = '0' . $value;
         }
         for ($i = 0; $i <= 8; $i++) {
-            $sub = $sub + ( $value[$i] * ( 10 - $i ) );
+            $sub = $sub + ($value[$i] * (10 - $i));
         }
-        if (( $sub % 11 ) < 2) {
-            $control = ( $sub % 11 );
+        if (($sub % 11) < 2) {
+            $control = ($sub % 11);
         } else {
-            $control = 11 - ( $sub % 11 );
+            $control = 11 - ($sub % 11);
         }
         if ($value[9] == $control) {
             return true;
@@ -248,7 +248,7 @@ class Pregex
             return false;
         }
         $sum = 0;
-        for ($position = 1; $position <= 16; $position++){
+        for ($position = 1; $position <= 16; $position++) {
             $temp = $value[$position - 1];
             $temp = $position % 2 === 0 ? $temp : $temp * 2;
             $temp = $temp > 9 ? $temp - 9 : $temp;
@@ -273,10 +273,8 @@ class Pregex
      */
     public function is_postal_card($value)
     {
-        return (bool) preg_match("/^(\d{5}-?\d{5})$/", $value);
+        return (bool)preg_match("/^(\d{5}-?\d{5})$/", $value);
     }
-
-
 
 
     /**
