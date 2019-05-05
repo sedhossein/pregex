@@ -5,13 +5,17 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use Sedhossein\Pregex\Pregex;
 
+/**
+ * Class PregexTest
+ * @package Tests\Unit
+ */
 final class PregexTest extends TestCase
 {
     /**
      * A basic test .
      * @return void
      */
-    public function testIs_persian_text()
+    public function test_is_persian_text()
     {
         $sample_strings = [
             'بسم الله',
@@ -26,15 +30,37 @@ final class PregexTest extends TestCase
             'ویرگول ها ٪هٔيأؤئء٫٬همراهی ',
             ' + = ! ? /\ , $ ',
         ];
-
         foreach ($sample_strings as $string)
-            $this->assertEquals(Pregex::is_persian_text($string),1);
-
+            $this->assertEquals(Pregex::is_persian_text($string), 1);
     }
 
-//    public function test_helper()
-//    {
-//        $this->assertTrue(true);
-//    }
+
+    /**
+     * Test For Just Persian Numbers ( Not Arabic )
+     */
+    public function test_is_persian_number()
+    {
+
+        $falsy_strings = [
+            '٢٣٤٥٦٧٨٩ ٢٣٤٥٦٧٨٩',
+            '٢٣٤٥٦٧٨٩,٢٣٤٥٦٧٨٩',
+            '٢٣٤٥٦٧٨٩.٢٣٤٥٦٧٨٩',
+            '٢٣٤٥٦12٧٨٩',
+            '٢٣٤٥٦٧٨٩qw',
+            'as٢٣٤٥٦٧٨٩',
+            '٢٣٤٥٦0٧٨٩',
+        ];
+        foreach ($falsy_strings as $string)
+            $this->assertEquals(Pregex::is_persian_number($string), 0);
+
+
+        $true_strings = [
+            '۱۲۶۷۹۰۱۲۶۷۹۰۱۲۶۷۹۰۱۲۶۷۹۰۱۲۶۷۹۰۱۲۶۷۹۰۱۲۶۷۹۰۱۲۶۷۹۰۱۲۶۷۹۰',
+            '۱۲۶۷',
+        ];
+        foreach ($true_strings as $string)
+            $this->assertEquals(Pregex::is_persian_number($string), 1);
+    }
+
 
 }
