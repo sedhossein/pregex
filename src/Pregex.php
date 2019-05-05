@@ -36,6 +36,7 @@ class Pregex
      * @var string
      */
     private static $persian_num_codepoints = '\x{06F0}-\x{06F9}';
+//    private static $persian_num_codepoints = '۰-۹';
 
     /**
      * Persian(Arabic) punctuation marks
@@ -54,6 +55,7 @@ class Pregex
      * @var string
      */
     private static $arabic_numbers_codepoints = '\x{0660}-\x{0669}';
+//    private static $arabic_numbers_codepoints = '٠-٩';
 
     /**
      * Some Chars That They Are Not Exists In Above Limit Uni-Codes
@@ -88,7 +90,7 @@ class Pregex
     {
         return self::combine_regex_exps([
             self::$arabic_numbers_codepoints,
-            self::$persian_num_codepoints
+//            self::$persian_num_codepoints
         ]);
     }
 
@@ -157,6 +159,10 @@ class Pregex
     }
 
 
+    /**
+     * @param $number
+     * @return bool
+     */
     public function is_persian_mobile($number)
     {
         return (
@@ -167,6 +173,10 @@ class Pregex
     }
 
 
+    /**
+     * @param $value
+     * @return bool
+     */
     public function is_valid_sheba($value)
     {
         $ibanReplaceValues = [];
@@ -196,6 +206,10 @@ class Pregex
 
     }
 
+    /**
+     * @param $value
+     * @return bool
+     */
     public function is_melli_code($value)
     {
         if (!preg_match('/^\d{8,10}$/', $value) || preg_match('/^[0]{10}|[1]{10}|[2]{10}|[3]{10}|[4]{10}|[5]{10}|[6]{10}|[7]{10}|[8]{10}|[9]{10}$/', $value)) {
@@ -223,6 +237,10 @@ class Pregex
     }
 
 
+    /**
+     * @param $value
+     * @return bool
+     */
     public function is_card_number($value)
     {
 
@@ -240,12 +258,19 @@ class Pregex
     }
 
 
+    /**
+     * @return int
+     */
     public function is_address()
     {
         return 1;
     }
 
 
+    /**
+     * @param $value
+     * @return bool
+     */
     public function is_postal_card($value)
     {
         return (bool) preg_match("/^(\d{5}-?\d{5})$/", $value);
