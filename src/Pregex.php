@@ -1,21 +1,12 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: sedhossein
- * Date: 11/21/2018
- * Time: 10:48 AM
- */
-
-namespace Sedhossein\Pregex;
 
 /**
+ * Pregex is a persian regex class powered with PCRE engine
+ *
  * Class Pregex
- * Collection of Regex for validating, filtering, sanitizing and finding Persian strings
- * @package Sedhossein\Pregex
  */
 class Pregex
 {
-
     /**
      * Persian Alphabet
      * @var string
@@ -26,7 +17,7 @@ class Pregex
      * This ranges include all kind of space,
      * specially ZERO WIDTH NON-JOINER that use as half space
      * and massively are using in Persian texts
-     * and NARROW NO-BREAK SPACE that is simmilar to previous character.
+     * and NARROW NO-BREAK SPACE that is similar to previous character.
      * @var string
      */
     private static $space_codepoints = ' \x{0020}\x{2000}-\x{200F}\x{2028}-\x{202F}';
@@ -36,7 +27,6 @@ class Pregex
      * @var string
      */
     private static $persian_num_codepoints = '\x{06F0}-\x{06F9}';
-//    private static $persian_num_codepoints = '۰-۹';
 
     /**
      * Persian(Arabic) punctuation marks
@@ -55,7 +45,6 @@ class Pregex
      * @var string
      */
     private static $arabic_numbers_codepoints = '\x{0660}-\x{0669}';
-//    private static $arabic_numbers_codepoints = '٠-٩';
 
     /**
      * Some Chars That They Are Not Exists In Above Limit Uni-Codes
@@ -67,31 +56,19 @@ class Pregex
      * Writing Symptoms Characters
      * @var string
      */
-    private static $writing_symptoms = '+=!@#$%^&*,،`"';
-
-
-    /**
-     *  Just Check The Persian/Arabic Alphabets
-     * @return string - Joined Regex
-     */
-    public static function get_char_regex()
-    {
-        return self::combine_regex_exps([
-            self::$persian_alpha_codepoints,
-            self::$additional_arabic_characters_codepoints
-        ]);
-    }
+    private static $writing_symptoms = '؟+=!@#$%^&*,،`"';
 
     /**
      *  Just Check The Persian/Arabic Numbers
      * @return string
      */
-    public static function get_number_regex()
+    private static function get_number_regex(): string
     {
-        return self::combine_regex_exps([
-//            self::$arabic_numbers_codepoints,
-            self::$persian_num_codepoints
-        ]);
+        return "/(^[".
+            self::$arabic_numbers_codepoints .
+            "]*$|^[".
+            self::$persian_num_codepoints .
+            "]*$)/u";
     }
 
     /**
@@ -99,7 +76,7 @@ class Pregex
      *  Like: numbers, alphabets, marks, symptoms and so on ...
      * @return string
      */
-    public static function get_text_regex()
+    public static function get_text_regex() : string
     {
         return self::combine_regex_exps([
             self::$persian_alpha_codepoints,
@@ -113,57 +90,40 @@ class Pregex
         ]);
     }
 
-
     /**
-     *  Check Persian Or Arabic Number
+     * Validate Persian or Arabic Number
      * @param $number
      * @return false|int
      */
-    public static function is_persian_number($number)
+    public static function is_persian_number(string $number): bool
     {
         return preg_match(self::get_number_regex(), $number);
     }
 
-
     /**
-     * Check Persian Or Arabic Text
-     * @param $text
-     * @return false|int
-     */
-    public static function is_persian_text($text)
-    {
-        return preg_match(self::get_text_regex(), $text);
-    }
-
-
-    /**
-     *  Return 0 or 1
-     *  Check That is literally Persian Chars or Not
+     * Validate persian texts with arabic chars
      * @param $string
-     * @return false|int
+     * @return boolean
      */
-    public function is_persian_string($string)
+    public function is_persian_text(string $string): bool
     {
-        return preg_match(self::get_char_regex(), $string);
+        return preg_match(self::get_text_regex(), $string);
     }
 
     /**
-     *  Return Boolean
-     *  Check Email Structur is correct or Not
-     * @param $string email
-     * @return false|int
+     * @param $string $email
+     * @return boolean
      */
-    public function is_valid_email($email)
+    public function is_valid_email(string $email): bool
     {
         return filter_var($email, FILTER_VALIDATE_EMAIL);
     }
-
 
     /**
      * @param $number
      * @return bool
      */
-    public function is_persian_mobile($number)
+    public function is_mobile_number(string $number): bool
     {
         return (
             (bool)preg_match('/^(((98)|(\+98)|(0098)|0)(9){1}[0-9]{9})+$/', $number)
@@ -172,12 +132,11 @@ class Pregex
 
     }
 
-
     /**
      * @param $value
      * @return bool
      */
-    public function is_valid_sheba($value)
+    public function is_valid_sheba($value): bool
     {
         $ibanReplaceValues = [];
         if (!empty($value)) {
@@ -203,16 +162,18 @@ class Pregex
             return true;
         }
         return false;
-
     }
 
     /**
      * @param $value
      * @return bool
      */
-    public function is_melli_code($value)
+    public function is_melli_code($value):bool
     {
-        if (!preg_match('/^\d{8,10}$/', $value) || preg_match('/^[0]{10}|[1]{10}|[2]{10}|[3]{10}|[4]{10}|[5]{10}|[6]{10}|[7]{10}|[8]{10}|[9]{10}$/', $value)) {
+        if (
+            preg_match('/^\d{8,10}$/', $value) == false ||
+            preg_match('/^[0]{10}|[1]{10}|[2]{10}|[3]{10}|[4]{10}|[5]{10}|[6]{10}|[7]{10}|[8]{10}|[9]{10}$/', $value)
+        ) {
             return false;
         }
         $sub = 0;
@@ -229,21 +190,21 @@ class Pregex
         } else {
             $control = 11 - ($sub % 11);
         }
-        if ($value[9] == $control) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 
+        return $value[9] == $control ? true : false;
+    }
 
     /**
      * @param $value
      * @return bool
      */
-    public function is_card_number($value)
+    public function is_card_number($value):bool
     {
-
+        if () {
+            return true;
+        } else {
+            return false;
+        }
         if (!preg_match('/^\d{16}$/', $value)) {
             return false;
         }
@@ -257,25 +218,14 @@ class Pregex
         return (bool)($sum % 10 === 0);
     }
 
-
-    /**
-     * @return int
-     */
-    public function is_address()
-    {
-        return 1;
-    }
-
-
     /**
      * @param $value
      * @return bool
      */
-    public function is_postal_card($value)
+    public function is_postal_card($value): bool
     {
         return (bool)preg_match("/^(\d{5}-?\d{5})$/", $value);
     }
-
 
     /**
      * Combine And Join The Multi Regex together For Make Final Regex
@@ -283,14 +233,14 @@ class Pregex
      * @param $arguments
      * @return string
      */
-    private static function combine_regex_exps($arguments)
+    private static function combine_regex_exps($arguments): string
     {
         $combined = '/[';
 
-        foreach ($arguments as $argument)
+        foreach ($arguments as $argument) {
             $combined .= $argument;
+        }
 
         return $combined . ']+$/um'; //support unicode and multi-line
     }
-
 }
