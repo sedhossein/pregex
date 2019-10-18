@@ -1,9 +1,17 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: sedhossein
+ * Date: 11/21/2018
+ * Time: 10:48 AM
+ */
+
+namespace Sedhossein\Pregex;
 
 /**
- * Pregex is a persian regex class powered with PCRE engine
- *
  * Class Pregex
+ * Collection of Regex for validating, filtering, sanitizing and finding Persian strings
+ * @package Sedhossein\Pregex
  */
 class Pregex
 {
@@ -64,9 +72,9 @@ class Pregex
      */
     private static function get_number_regex(): string
     {
-        return "/(^[".
+        return "/(^[" .
             self::$arabic_numbers_codepoints .
-            "]*$|^[".
+            "]*$|^[" .
             self::$persian_num_codepoints .
             "]*$)/u";
     }
@@ -76,7 +84,7 @@ class Pregex
      *  Like: numbers, alphabets, marks, symptoms and so on ...
      * @return string
      */
-    public static function get_text_regex() : string
+    public static function get_text_regex(): string
     {
         return self::combine_regex_exps([
             self::$persian_alpha_codepoints,
@@ -105,7 +113,7 @@ class Pregex
      * @param $string
      * @return boolean
      */
-    public function is_persian_text(string $string): bool
+    public static function is_persian_text(string $string): bool
     {
         return preg_match(self::get_text_regex(), $string);
     }
@@ -129,7 +137,6 @@ class Pregex
             (bool)preg_match('/^(((98)|(\+98)|(0098)|0)(9){1}[0-9]{9})+$/', $number)
             || (bool)preg_match('/^(9){1}[0-9]{9}+$/', $number)
         );
-
     }
 
     /**
@@ -168,7 +175,7 @@ class Pregex
      * @param $value
      * @return bool
      */
-    public function is_melli_code($value):bool
+    public function is_melli_code($value): bool
     {
         if (
             preg_match('/^\d{8,10}$/', $value) == false ||
@@ -198,13 +205,8 @@ class Pregex
      * @param $value
      * @return bool
      */
-    public function is_card_number($value):bool
+    public function is_card_number($value): bool
     {
-        if () {
-            return true;
-        } else {
-            return false;
-        }
         if (!preg_match('/^\d{16}$/', $value)) {
             return false;
         }
