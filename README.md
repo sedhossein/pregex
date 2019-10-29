@@ -20,7 +20,7 @@ This Lib Contain The list of some Persian/iranian Regex's in just one library.
 ```
 
 ```php
-   public function is_mobile_number(string $number): bool
+    public function is_mobile_number(string $number): bool
 ```
 
 ```php
@@ -36,7 +36,7 @@ This Lib Contain The list of some Persian/iranian Regex's in just one library.
 ```
 
 ```php
-   public function is_postal_card($value): bool
+    public function is_postal_card($value): bool
 ```
 
     
