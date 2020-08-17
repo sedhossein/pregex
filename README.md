@@ -1,6 +1,16 @@
-# WIP: pregex (Persian Regex)
+# pregex (Persian|Iranians|Farsi Regex)
 ***
 
+### TODO: 
+- Add travisCI for project
+- Improve documentation
+- Add badges
+
+ ---
+ 
+[![Build Status](https://travis-ci.org/sedhossein/pregex.svg?branch=master)](https://travis-ci.org/sedhossein/pregex)
+[![Coverage Status](https://coveralls.io/repos/github/sedhossein/pregex/badge.svg?branch=master)](https://coveralls.io/github/sedhossein/pregex?branch=master)
+ 
 This Lib Contain The list of some Persian/iranian Regex's in just one library.
 
 
