@@ -1,8 +1,9 @@
 <?php
+declare(strict_types=1);
 
 namespace Tests\Unit;
 
-use Tests\TestCase;
+use PHPUnit\Framework\TestCase;
 use Sedhossein\Pregex\Pregex;
 
 /**
@@ -11,15 +12,102 @@ use Sedhossein\Pregex\Pregex;
  */
 final class PregexTest extends TestCase
 {
+    // ============================== Persian Numbers ==============================
+
+    /**
+     * @dataProvider ValidPersianNumbers
+     */
+    public function test_valid_persian_number(string $number)
+    {
+        $this->assertEquals(true, (new Pregex)->IsPersianNumber($number));
+    }
+    /**
+     * @dataProvider InvalidPersianNumbers
+     */
+    public function test_invalid_persian_number(string $number)
+    {
+        $this->assertEquals(false, (new Pregex)->IsPersianNumber($number));
+    }
+
+    public function ValidPersianNumbers(): array
+    {
+        return [["۱"], ["۲"], ["۳"], ["۴"], ["۵"], ["۶"], ["۷"], ["۸"], ["۹"], ["۰"], ["۱۲۳۴۵۶۷۸۹"]];
+    }
+
+    public function InvalidPersianNumbers(): array
+    {
+        return [[" "], ["asd"], ["2"], ["٤"], ["٥"], ["٦"]];
+    }
+
+    // ============================== Arabic Numbers ==============================
+
+    /**
+     * @dataProvider ValidArabicNumbers
+     */
+    public function test_valid_arabic_number(string $number)
+    {
+        $this->assertEquals(true, (new Pregex)->IsArabicNumber($number));
+    }
+
+    /**
+     * @dataProvider InvalidArabicNumbers
+     * @param string $number
+     */
+    public function test_invalid_arabic_number(string $number)
+    {
+        $this->assertEquals(false, (new Pregex)->IsArabicNumber($number));
+    }
+
+    public function ValidArabicNumbers(): array
+    {
+        return [["١"], ["٢"], ["٣"], ["٤"], ["٥"], ["٦"], ["٧"], ["٨"], ["٩"], ["٠"], ["١٠٢٣٤٥٦٧٨٩"]];
+    }
+
+    public function InvalidArabicNumbers(): array
+    {
+        return [[" "], ["asd"], ["1"], ["۴"], ["۵"], ["۶"]];
+    }
+
+    // ============================== Arabic or Persian Numbers ==============================
+
+    /**
+     * @dataProvider ValidPersianAndArabicNumbers
+     */
+    public function test_valid_persian_and_arabic_number(string $number)
+    {
+        $this->assertEquals(true, (new Pregex)->IsPersianOrArabicNumber($number));
+    }
+
+    public function ValidPersianAndArabicNumbers(): array
+    {
+        return [
+            ["۱"], ["۲"], ["۳"], ["۴"], ["۵"], ["۶"], ["۷"], ["۸"], ["۹"], ["۰"], ["۱۰۲۳۴۵۶۷۸۹"], // persian
+            ["١"], ["٢"], ["٣"], ["٤"], ["٥"], ["٦"], ["٧"], ["٨"], ["٩"], ["٠"], ["١٠٢٣٤٥٦٧٨٩"], // arabic
+            ["٦۶"], ["۵٥"], ["٤۴"], ["۱٠۲۳۴۵۶۷۸۹١٠٢٣٤٥٦٧٨٩"],                                     // combined
+        ];
+    }
+
+    /**
+     * @dataProvider InvalidPersianAndArabicNumbers
+     */
+    public function test_invalid_persian_and_arabic_number(string $number)
+    {
+        $this->assertEquals(false, (new Pregex)->IsPersianOrArabicNumber($number));
+    }
+
+    public function InvalidPersianAndArabicNumbers(): array
+    {
+        return [[" "], ["asd"], ["2"], ["٤"], ["٥"], ["٦"]];
+    }
+
+
     /**
      * @dataProvider valid_persian_texts
-     * @param string $sample_string
      */
     public function test_valid_persian_text($sample_string)
     {
         $this->assertEquals(1, \Tests\Unit\Pregex::is_persian_text($sample_string));
     }
-
 
     /**
      * @dataProvider invalid_persian_texts

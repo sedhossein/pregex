@@ -16,6 +16,18 @@ namespace Sedhossein\Pregex;
 class Pregex
 {
     /**
+     * Persian numbers
+     * @var string
+     */
+    private static $persian_number_codepoints = '\x{06F0}-\x{06F9}';
+
+    /**
+     * Arabic numbers
+     * @var string
+     */
+    private static $arabic_numbers_codepoints = '\x{0660}-\x{0669}';
+
+    /**
      * Persian Alphabet
      * @var string
      */
@@ -31,12 +43,6 @@ class Pregex
     private static $space_codepoints = ' \x{0020}\x{2000}-\x{200F}\x{2028}-\x{202F}';
 
     /**
-     * Persian numbers
-     * @var string
-     */
-    private static $persian_num_codepoints = '\x{06F0}-\x{06F9}';
-
-    /**
      * Persian(Arabic) punctuation marks
      * @var string
      */
@@ -47,12 +53,6 @@ class Pregex
      * @var string
      */
     private static $additional_arabic_characters_codepoints = ' \x{0629}\x{0643}\x{0649}-\x{064B}\x{064D}\x{06D5}\x{0647}\x{0654}';
-
-    /**
-     * Arabic numbers
-     * @var string
-     */
-    private static $arabic_numbers_codepoints = '\x{0660}-\x{0669}';
 
     /**
      * Some Chars That They Are Not Exists In Above Limit Uni-Codes
@@ -67,29 +67,16 @@ class Pregex
     private static $writing_symptoms = '؟+=!@#$%^&*,،`"';
 
     /**
-     *  Just Check The Persian/Arabic Numbers
-     * @return string
-     */
-    private static function get_number_regex(): string
-    {
-        return "/(^[" .
-            self::$arabic_numbers_codepoints .
-            "]*$|^[" .
-            self::$persian_num_codepoints .
-            "]*$)/u";
-    }
-
-    /**
      *  Check The All Conditions For An Persian/Arabic Texts,
      *  Like: numbers, alphabets, marks, symptoms and so on ...
      * @return string
      */
-    public static function get_text_regex(): string
+    protected static function get_text_regex(): string
     {
         return self::combine_regex_exps([
             self::$persian_alpha_codepoints,
             self::$space_codepoints,
-            self::$persian_num_codepoints,
+            self::$persian_number_codepoints,
             self::$punctuation_marks_codepoints,
             self::$additional_arabic_characters_codepoints,
             self::$arabic_numbers_codepoints,
@@ -99,13 +86,31 @@ class Pregex
     }
 
     /**
-     * Validate Persian or Arabic Number
+     * Validate Persian Number
      * @param $number
-     * @return false|int
+     * @return bool
      */
-    public static function is_persian_number(string $number): bool
+    public function IsPersianNumber(string $number): bool
     {
-        return preg_match(self::get_number_regex(), $number);
+        return preg_match("/(^[" . self::$persian_number_codepoints . "]*$)/u", $number);
+    }
+
+    /**
+     * Validate Arabic Number
+     * @param $number
+     * @return bool
+     */
+    public function IsArabicNumber(string $number): bool
+    {
+        return preg_match("/(^[" . self::$arabic_numbers_codepoints . "]*$)/u", $number);
+    }
+
+    public function IsPersianOrArabicNumber(string $number): bool
+    {
+        return preg_match("/(^[" .
+            self::$arabic_numbers_codepoints .
+            self::$persian_number_codepoints .
+            "]*$)/u", $number);
     }
 
     /**
@@ -227,6 +232,19 @@ class Pregex
     public function is_postal_card($value): bool
     {
         return (bool)preg_match("/^(\d{5}-?\d{5})$/", $value);
+    }
+
+    /**
+     *  Just Check The Persian/Arabic Numbers
+     * @return string
+     */
+    protected static function get_number_regex(): string
+    {
+        return "/(^[" .
+            self::$arabic_numbers_codepoints .
+            "]*$|^[" .
+            self::$persian_number_codepoints .
+            "]*$)/u";
     }
 
     /**
