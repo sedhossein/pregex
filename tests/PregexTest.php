@@ -1,18 +1,14 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\Unit;
+namespace Sedhossein\Pregex\Tests;
 
 use PHPUnit\Framework\TestCase;
 use Sedhossein\Pregex\Pregex;
 
-/**
- * Class PregexTest
- * @package Tests\Unit
- */
 final class PregexTest extends TestCase
 {
-    // ============================== Persian Numbers ==============================
+    // ============================== Persian Numbers Validations ==============================
 
     /**
      * @dataProvider ValidPersianNumbers
@@ -21,6 +17,7 @@ final class PregexTest extends TestCase
     {
         $this->assertEquals(true, (new Pregex)->IsPersianNumber($number));
     }
+
     /**
      * @dataProvider InvalidPersianNumbers
      */
@@ -36,10 +33,10 @@ final class PregexTest extends TestCase
 
     public function InvalidPersianNumbers(): array
     {
-        return [[" "], ["asd"], ["2"], ["٤"], ["٥"], ["٦"]];
+        return [[" "], ["asd"], ["2"], ["٤"], ["٥"], ["٦"], [""]];
     }
 
-    // ============================== Arabic Numbers ==============================
+    // ============================== Arabic Numbers Validations ==============================
 
     /**
      * @dataProvider ValidArabicNumbers
@@ -65,10 +62,10 @@ final class PregexTest extends TestCase
 
     public function InvalidArabicNumbers(): array
     {
-        return [[" "], ["asd"], ["1"], ["۴"], ["۵"], ["۶"]];
+        return [[" "], ["asd"], ["1"], ["۴"], ["۵"], ["۶"], [""]];
     }
 
-    // ============================== Arabic or Persian Numbers ==============================
+    // ============================== Arabic or Persian Numbers Validations ==============================
 
     /**
      * @dataProvider ValidPersianAndArabicNumbers
@@ -76,6 +73,14 @@ final class PregexTest extends TestCase
     public function test_valid_persian_and_arabic_number(string $number)
     {
         $this->assertEquals(true, (new Pregex)->IsPersianOrArabicNumber($number));
+    }
+
+    /**
+     * @dataProvider InvalidPersianAndArabicNumbers
+     */
+    public function test_invalid_persian_and_arabic_number(string $number)
+    {
+        $this->assertEquals(false, (new Pregex)->IsPersianOrArabicNumber($number));
     }
 
     public function ValidPersianAndArabicNumbers(): array
@@ -87,96 +92,162 @@ final class PregexTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider InvalidPersianAndArabicNumbers
-     */
-    public function test_invalid_persian_and_arabic_number(string $number)
-    {
-        $this->assertEquals(false, (new Pregex)->IsPersianOrArabicNumber($number));
-    }
-
     public function InvalidPersianAndArabicNumbers(): array
     {
-        return [[" "], ["asd"], ["2"], ["٤"], ["٥"], ["٦"]];
+        return [[" "], ["asd"], ["1"], ["123"], ["."], [""]];
     }
 
+    // ============================== Email Validations ==============================
 
     /**
-     * @dataProvider valid_persian_texts
+     * @dataProvider ValidEmails
      */
-    public function test_valid_persian_text($sample_string)
+    public function test_valid_emails(string $email)
     {
-        $this->assertEquals(1, \Tests\Unit\Pregex::is_persian_text($sample_string));
+        $this->assertEquals(true, (new Pregex)->IsEmail($email));
     }
 
     /**
-     * @dataProvider invalid_persian_texts
-     * @param $sample_string
+     * @dataProvider InvalidEmails
      */
-    public function test_invalid_persian_text($sample_string)
+    public function test_invalid_emails(string $email)
     {
-        $this->assertEquals(0, Pregex::is_persian_text($sample_string));
+        $this->assertEquals(false, (new Pregex)->IsEmail($email));
     }
 
-    /**
-     * @return array
-     */
-    public function valid_persian_texts()
+    public function ValidEmails(): array
     {
         return [
-            ['بسم الله'],
-            ['تست با فاصله و نیم‌فاصله '],
-            ['تست، قواعدی: و نگارشی پشت ژرفای ثبت.دست‌؛ یالا؟'],
-            ['۰۱۲۳۴۵۶۷۸۹ اعدادی فارسی اند'],
-            ['٠١٢٣٤٥٦٧٨٩اعدادی عربی-فارسی اند'],
-            ['قطعاً همه مئمنیم درّ گران بهاییْ هستندُ جهتِ تستیـ بهتر'],
-            ['آمار اختلاص چندین٪ کم شده'],
-            ['حروفی همچون ٪هٔيأؤئء'],
-            ['ویرگول ها ٪هٔيأؤئء٫٬همراهی '],
-            [' + = ! ? /\ , $ '],
-            ['گچپژ'],
+            ["test@sedhossein.dev"], ["test.test@sedhossein.dev"],
+            ["test_test@sedhossein.dev"], ["test+test@sedhossein.dev"],
+            ["t@sedhossein.dev"], ["test123@sedhossein.dev"],
+            ["123test.123_test@sedhossein.dev"], ["test@t.io"],
+            ["a@b.c"]
         ];
     }
 
-    /**
-     * @return array
-     */
-    public function invalid_persian_texts()
+    public function InvalidEmails(): array
     {
         return [
-            ['persian'],
-            ['تست، قواعدی: و نگارشی پشت ژرفای ثبت.دست‌؛ab یالا؟'],
-            ['qwتست، قواعدی: و نگارشی پشت ژرفای ثبت.دست‌؛ یالا؟'],
-            ['qwتست، قواعدی: و نگارشی پشت ژرفای ثبت.دست‌؛ یالا؟ew'],
-            ['1234 اعدادی فارسی اند'],
-            ['٠56اعدادی عربی-فارسی اند'],
+            ["test..test@sedhossein.dev"], ["@sedhossein.dev"], ["test@sedhossein"], [".@sedhossein.dev"],
+            ["test@sedhossein@dev.ir"], ["test@sedhossein@dev.ir"], [""]
         ];
     }
 
+
+
+    // ============================== Cellphone Validations ==============================
 
     /**
-     * testing persian and arabic numbers
+     * @dataProvider ValidCellphones
      */
-    public function test_is_persian_number()
+    public function test_valid_cellphones(string $email)
     {
-        $falsy_strings = [
-            '٢٣٤٥٦٧٨٩ ٢٣٤٥٦٧٨٩',
-            '٢٣٤٥٦٧٨٩,٢٣٤٥٦٧٨٩',
-            '٢٣٤٥٦٧٨٩.٢٣٤٥٦٧٨٩',
-            '٢٣٤٥٦12٧٨٩',
-            '٢٣٤٥٦٧٨٩qw',
-            'as٢٣٤٥٦٧٨٩',
-            '٢٣٤٥٦0٧٨٩',
-        ];
-        foreach ($falsy_strings as $string)
-            $this->assertEquals(Pregex::is_persian_number($string), 0);
-
-
-        $true_strings = [
-            '۱۲۶۷۹۰۱۲۶۷۹۰۱۲۶۷۹۰۱۲۶۷۹۰۱۲۶۷۹۰۱۲۶۷۹۰۱۲۶۷۹۰۱۲۶۷۹۰۱۲۶۷۹۰',
-            '۱۲۶۷',
-        ];
-        foreach ($true_strings as $string)
-            $this->assertEquals(Pregex::is_persian_number($string), 1);
+        $this->assertEquals(true, (new Pregex)->IsCellphone($email));
     }
+
+    /**
+     * @dataProvider InvalidCellphones
+     */
+    public function test_invalid_cellphones(string $email)
+    {
+        $this->assertEquals(false, (new Pregex)->IsCellphone($email));
+    }
+
+    public function ValidCellphones(): array
+    {
+        return [
+            ["09123456789"], ["9123456789"],
+            ["989123456789"], ["+989123456789"],
+        ];
+    }
+
+    public function InvalidCellphones(): array
+    {
+        return [
+            ["091234567899"], ["0909123456789"], ["++989123456789"],
+            ["123456"], ["98989123456789"], [""]
+        ];
+    }
+
+
+//
+//    /**
+//     * @dataProvider valid_persian_texts
+//     */
+//    public function test_valid_persian_text($sample_string)
+//    {
+//        $this->assertEquals(1, \Tests\Unit\Pregex::is_persian_text($sample_string));
+//    }
+//
+//    /**
+//     * @dataProvider invalid_persian_texts
+//     * @param $sample_string
+//     */
+//    public function test_invalid_persian_text($sample_string)
+//    {
+//        $this->assertEquals(0, Pregex::is_persian_text($sample_string));
+//    }
+//
+//    /**
+//     * @return array
+//     */
+//    public function valid_persian_texts()
+//    {
+//        return [
+//            ['بسم الله'],
+//            ['تست با فاصله و نیم‌فاصله '],
+//            ['تست، قواعدی: و نگارشی پشت ژرفای ثبت.دست‌؛ یالا؟'],
+//            ['۰۱۲۳۴۵۶۷۸۹ اعدادی فارسی اند'],
+//            ['٠١٢٣٤٥٦٧٨٩اعدادی عربی-فارسی اند'],
+//            ['قطعاً همه مئمنیم درّ گران بهاییْ هستندُ جهتِ تستیـ بهتر'],
+//            ['آمار اختلاص چندین٪ کم شده'],
+//            ['حروفی همچون ٪هٔيأؤئء'],
+//            ['ویرگول ها ٪هٔيأؤئء٫٬همراهی '],
+//            [' + = ! ? /\ , $ '],
+//            ['گچپژ'],
+//        ];
+//    }
+//
+//    /**
+//     * @return array
+//     */
+//    public function invalid_persian_texts()
+//    {
+//        return [
+//            ['persian'],
+//            ['تست، قواعدی: و نگارشی پشت ژرفای ثبت.دست‌؛ab یالا؟'],
+//            ['qwتست، قواعدی: و نگارشی پشت ژرفای ثبت.دست‌؛ یالا؟'],
+//            ['qwتست، قواعدی: و نگارشی پشت ژرفای ثبت.دست‌؛ یالا؟ew'],
+//            ['1234 اعدادی فارسی اند'],
+//            ['٠56اعدادی عربی-فارسی اند'],
+//        ];
+//    }
+//
+//
+//    /**
+//     * testing persian and arabic numbers
+//     */
+//    public function test_is_persian_number()
+//    {
+//        $falsy_strings = [
+//            '٢٣٤٥٦٧٨٩ ٢٣٤٥٦٧٨٩',
+//            '٢٣٤٥٦٧٨٩,٢٣٤٥٦٧٨٩',
+//            '٢٣٤٥٦٧٨٩.٢٣٤٥٦٧٨٩',
+//            '٢٣٤٥٦12٧٨٩',
+//            '٢٣٤٥٦٧٨٩qw',
+//            'as٢٣٤٥٦٧٨٩',
+//            '٢٣٤٥٦0٧٨٩',
+//        ];
+//        foreach ($falsy_strings as $string)
+//            $this->assertEquals(Pregex::is_persian_number($string), 0);
+//
+//
+//        $true_strings = [
+//            '۱۲۶۷۹۰۱۲۶۷۹۰۱۲۶۷۹۰۱۲۶۷۹۰۱۲۶۷۹۰۱۲۶۷۹۰۱۲۶۷۹۰۱۲۶۷۹۰۱۲۶۷۹۰',
+//            '۱۲۶۷',
+//        ];
+//        foreach ($true_strings as $string)
+//            $this->assertEquals(Pregex::is_persian_number($string), 1);
+//    }
 }

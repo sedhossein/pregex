@@ -48,14 +48,3 @@ This Lib Contain The list of some Persian/iranian Regex's in just one library.
 ```php
     public function is_postal_card($value): bool
 ```
-
-    
-
-### TODO's 
-- [ ] installation
-- [ ] versioning
-- [x] Methods
-- [ ] Usages, Samples
-- [ ] improve test coverage
-- [ ] refactoring
-

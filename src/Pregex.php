@@ -66,43 +66,15 @@ class Pregex
      */
     private static $writing_symptoms = '؟+=!@#$%^&*,،`"';
 
-    /**
-     *  Check The All Conditions For An Persian/Arabic Texts,
-     *  Like: numbers, alphabets, marks, symptoms and so on ...
-     * @return string
-     */
-    protected static function get_text_regex(): string
-    {
-        return self::combine_regex_exps([
-            self::$persian_alpha_codepoints,
-            self::$space_codepoints,
-            self::$persian_number_codepoints,
-            self::$punctuation_marks_codepoints,
-            self::$additional_arabic_characters_codepoints,
-            self::$arabic_numbers_codepoints,
-            self::$special_chars,
-            self::$writing_symptoms,
-        ]);
-    }
 
-    /**
-     * Validate Persian Number
-     * @param $number
-     * @return bool
-     */
     public function IsPersianNumber(string $number): bool
     {
-        return preg_match("/(^[" . self::$persian_number_codepoints . "]*$)/u", $number);
+        return preg_match("/(^[" . self::$persian_number_codepoints . "]+$)/u", $number);
     }
 
-    /**
-     * Validate Arabic Number
-     * @param $number
-     * @return bool
-     */
     public function IsArabicNumber(string $number): bool
     {
-        return preg_match("/(^[" . self::$arabic_numbers_codepoints . "]*$)/u", $number);
+        return preg_match("/(^[" . self::$arabic_numbers_codepoints . "]+$)/u", $number);
     }
 
     public function IsPersianOrArabicNumber(string $number): bool
@@ -110,7 +82,17 @@ class Pregex
         return preg_match("/(^[" .
             self::$arabic_numbers_codepoints .
             self::$persian_number_codepoints .
-            "]*$)/u", $number);
+            "]+$)/u", $number);
+    }
+
+    public function IsEmail(string $email): bool
+    {
+        return filter_var($email, FILTER_VALIDATE_EMAIL);
+    }
+
+    public function IsCellphone(string $number): bool
+    {
+        return preg_match('/^(^((98)|(\+98)|0)?(9){1}[0-9]{9})+$/', $number);
     }
 
     /**
@@ -121,27 +103,6 @@ class Pregex
     public static function is_persian_text(string $string): bool
     {
         return preg_match(self::get_text_regex(), $string);
-    }
-
-    /**
-     * @param $string $email
-     * @return boolean
-     */
-    public function is_valid_email(string $email): bool
-    {
-        return filter_var($email, FILTER_VALIDATE_EMAIL);
-    }
-
-    /**
-     * @param $number
-     * @return bool
-     */
-    public function is_mobile_number(string $number): bool
-    {
-        return (
-            (bool)preg_match('/^(((98)|(\+98)|(0098)|0)(9){1}[0-9]{9})+$/', $number)
-            || (bool)preg_match('/^(9){1}[0-9]{9}+$/', $number)
-        );
     }
 
     /**
@@ -235,16 +196,22 @@ class Pregex
     }
 
     /**
-     *  Just Check The Persian/Arabic Numbers
+     *  Check The All Conditions For An Persian/Arabic Texts,
+     *  Like: numbers, alphabets, marks, symptoms and so on ...
      * @return string
      */
-    protected static function get_number_regex(): string
+    protected static function get_text_regex(): string
     {
-        return "/(^[" .
-            self::$arabic_numbers_codepoints .
-            "]*$|^[" .
-            self::$persian_number_codepoints .
-            "]*$)/u";
+        return self::combine_regex_exps([
+            self::$persian_alpha_codepoints,
+            self::$space_codepoints,
+            self::$persian_number_codepoints,
+            self::$punctuation_marks_codepoints,
+            self::$additional_arabic_characters_codepoints,
+            self::$arabic_numbers_codepoints,
+            self::$special_chars,
+            self::$writing_symptoms,
+        ]);
     }
 
     /**
