@@ -95,48 +95,34 @@ class Pregex
         return preg_match('/^(^((98)|(\+98)|0)?(9){1}[0-9]{9})+$/', $number);
     }
 
-    /**
-     * Validate persian texts with arabic chars
-     * @param $string
-     * @return boolean
-     */
-    public static function is_persian_text(string $string): bool
+    public function IsSheba($value): bool
     {
-        return preg_match(self::get_text_regex(), $string);
-    }
-
-    /**
-     * @param $value
-     * @return bool
-     */
-    public function is_valid_sheba($value): bool
-    {
-        $ibanReplaceValues = [];
-        if (!empty($value)) {
-            $value = preg_replace('/[\W_]+/', '', strtoupper($value));
-            if ((4 > strlen($value) || strlen($value) > 34) || (is_numeric($value [0]) || is_numeric($value [1])) || (!is_numeric($value [2]) || !is_numeric($value [3]))) {
-                return false;
-            }
-            $ibanReplaceChars = range('A', 'Z');
-            foreach (range(10, 35) as $tempvalue) {
-                $ibanReplaceValues[] = strval($tempvalue);
-            }
-            $tmpIBAN = substr($value, 4) . substr($value, 0, 4);
-            $tmpIBAN = str_replace($ibanReplaceChars, $ibanReplaceValues, $tmpIBAN);
-            $tmpValue = intval(substr($tmpIBAN, 0, 1));
-            for ($i = 1; $i < strlen($tmpIBAN); $i++) {
-                $tmpValue *= 10;
-                $tmpValue += intval(substr($tmpIBAN, $i, 1));
-                $tmpValue %= 97;
-            }
-            if ($tmpValue != 1) {
-                return false;
-            }
-            return true;
+        if (empty($value)) {
+            return false;
         }
-        return false;
-    }
 
+        $ibanReplaceValues = [];
+        $value = preg_replace('/[\W_]+/', '', strtoupper($value));
+        if ((4 > strlen($value) || strlen($value) > 34) || (is_numeric($value [0]) || is_numeric($value [1])) || (!is_numeric($value [2]) || !is_numeric($value [3]))) {
+            return false;
+        }
+
+        $ibanReplaceChars = range('A', 'Z');
+        foreach (range(10, 35) as $tempvalue) {
+            $ibanReplaceValues[] = strval($tempvalue);
+        }
+
+        $tmpIBAN = substr($value, 4) . substr($value, 0, 4);
+        $tmpIBAN = str_replace($ibanReplaceChars, $ibanReplaceValues, $tmpIBAN);
+        $tmpValue = intval(substr($tmpIBAN, 0, 1));
+        for ($i = 1; $i < strlen($tmpIBAN); $i++) {
+            $tmpValue *= 10;
+            $tmpValue += intval(substr($tmpIBAN, $i, 1));
+            $tmpValue %= 97;
+        }
+
+        return $tmpValue != 1 ? false : true;
+    }
 
     public function IsNationalCode($value): bool
     {
@@ -164,6 +150,16 @@ class Pregex
         $control = ($sub % 11) < 2 ? $sub % 11 : 11 - ($sub % 11);
 
         return $value[9] == $control ? true : false;
+    }
+
+    /**
+     * Validate persian texts with arabic chars
+     * @param $string
+     * @return boolean
+     */
+    public static function is_persian_text(string $string): bool
+    {
+        return preg_match(self::get_text_regex(), $string);
     }
 
     /**

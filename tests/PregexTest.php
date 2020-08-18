@@ -206,6 +206,38 @@ final class PregexTest extends TestCase
         ];
     }
 
+    // ============================== Sheba Validations ==============================
+
+    /**
+     * @dataProvider ValidSheba
+     */
+    public function test_valid_sheba(string $code)
+    {
+        $this->assertEquals(true, (new Pregex)->IsSheba($code));
+    }
+
+    /**
+     * @dataProvider InvalidSheba
+     */
+    public function test_invalid_sheba(string $code)
+    {
+        $this->assertEquals(false, (new Pregex)->IsSheba($code));
+    }
+
+    public function ValidSheba(): array
+    {
+        return [
+            ["IR_400700001000117676135001"], ["IR400700001000117676135001"]
+        ];
+    }
+
+    public function InvalidSheba(): array
+    {
+        return [
+            ["asd"], ["123"], ["000000000000000000000000"],
+        ];
+    }
+
 
 //
 //    /**
