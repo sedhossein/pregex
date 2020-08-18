@@ -137,11 +137,8 @@ class Pregex
         return false;
     }
 
-    /**
-     * @param $value
-     * @return bool
-     */
-    public function is_melli_code($value): bool
+
+    public function IsNationalCode($value): bool
     {
         if (
             preg_match('/^\d{8,10}$/', $value) == false ||
@@ -149,20 +146,22 @@ class Pregex
         ) {
             return false;
         }
+
         $sub = 0;
-        if (strlen($value) == 8) {
-            $value = '00' . $value;
-        } elseif (strlen($value) == 9) {
-            $value = '0' . $value;
+        switch (strlen($value)) {
+            case 8:
+                $value = '00' . $value;
+                break;
+            case 9:
+                $value = '0' . $value;
+                break;
         }
+
         for ($i = 0; $i <= 8; $i++) {
             $sub = $sub + ($value[$i] * (10 - $i));
         }
-        if (($sub % 11) < 2) {
-            $control = ($sub % 11);
-        } else {
-            $control = 11 - ($sub % 11);
-        }
+
+        $control = ($sub % 11) < 2 ? $sub % 11 : 11 - ($sub % 11);
 
         return $value[9] == $control ? true : false;
     }

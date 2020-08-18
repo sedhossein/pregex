@@ -170,6 +170,42 @@ final class PregexTest extends TestCase
         ];
     }
 
+    // ============================== National Code Validations ==============================
+
+    /**
+     * @dataProvider ValidNationalCode
+     */
+    public function test_valid_national_codes(string $code)
+    {
+        $this->assertEquals(true, (new Pregex)->IsNationalCode($code));
+    }
+
+    /**
+     * @dataProvider InvalidNationalCode
+     */
+    public function test_invalid_national_codes(string $code)
+    {
+        $this->assertEquals(false, (new Pregex)->IsNationalCode($code));
+    }
+
+    public function ValidNationalCode(): array
+    {
+        return [
+            // TODO: this repo tested with personal national code,
+            // but for security issues i ignore this test on open-source
+        ];
+    }
+
+    public function InvalidNationalCode(): array
+    {
+        return [
+            ["0000000000"], ["1111111111"], ["2222222222"],
+            ["3333333333"], ["4444444444"], ["5555555555"],
+            ["6666666666"], ["7777777777"], ["8888888888"],
+            ["9999999999"], [""]
+        ];
+    }
+
 
 //
 //    /**
