@@ -257,7 +257,7 @@ final class PregexTest extends TestCase
     public function ValidCardNumber(): array
     {
         return [
-                ["5041721077783323"],
+            ["5041721077783323"],
         ];
     }
 
@@ -269,6 +269,38 @@ final class PregexTest extends TestCase
             ["4444444444444444"], ["5555555555555555"], ["6666666666666666"],
             ["7777777777777777"], ["8888888888888888"], ["9999999999999999"],
             ["asd"], ["0123456789"], ["9999999999999999"],
+        ];
+    }
+
+    // ============================== Card Validations ==============================
+
+    /**
+     * @dataProvider ValidPostalCode
+     */
+    public function test_valid_postal_code(string $code)
+    {
+        $this->assertEquals(true, (new Pregex)->IsPostalCode($code));
+    }
+
+    /**
+     * @dataProvider InvalidPostalCode
+     */
+    public function test_invalid_postal_code(string $code)
+    {
+        $this->assertEquals(false, (new Pregex)->IsPostalCode($code));
+    }
+
+    public function ValidPostalCode(): array
+    {
+        return [
+            ["0123456789"], ["12345-12345"],
+        ];
+    }
+
+    public function InvalidPostalCode(): array
+    {
+        return [
+            ["123456789"], ["00000--00000"], ["asd"], ["9999999999999999"],
         ];
     }
 

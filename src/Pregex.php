@@ -195,6 +195,11 @@ class Pregex
         return $sum % 10 === 0;
     }
 
+    public function IsPostalCode(string $value): bool
+    {
+        return preg_match("/^(\d{5}-?\d{5})$/", $value);
+    }
+
     /**
      * Validate persian texts with arabic chars
      * @param $string
@@ -203,15 +208,6 @@ class Pregex
     public static function is_persian_text(string $string): bool
     {
         return preg_match(self::get_text_regex(), $string);
-    }
-
-    /**
-     * @param $value
-     * @return bool
-     */
-    public function is_postal_card($value): bool
-    {
-        return (bool)preg_match("/^(\d{5}-?\d{5})$/", $value);
     }
 
     /**
