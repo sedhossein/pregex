@@ -135,7 +135,6 @@ final class PregexTest extends TestCase
     }
 
 
-
     // ============================== Cellphone Validations ==============================
 
     /**
@@ -206,35 +205,70 @@ final class PregexTest extends TestCase
         ];
     }
 
-    // ============================== Sheba Validations ==============================
+    // ============================== IBan Validations ==============================
 
     /**
-     * @dataProvider ValidSheba
+     * @dataProvider ValidIBan
      */
-    public function test_valid_sheba(string $code)
+    public function test_valid_iban(string $code)
     {
-        $this->assertEquals(true, (new Pregex)->IsSheba($code));
+        $this->assertEquals(true, (new Pregex)->IsIban($code));
     }
 
     /**
-     * @dataProvider InvalidSheba
+     * @dataProvider InvalidIBan
      */
-    public function test_invalid_sheba(string $code)
+    public function test_invalid_iban(string $code)
     {
-        $this->assertEquals(false, (new Pregex)->IsSheba($code));
+        $this->assertEquals(false, (new Pregex)->IsIban($code));
     }
 
-    public function ValidSheba(): array
+    public function ValidIBan(): array
     {
         return [
             ["IR_400700001000117676135001"], ["IR400700001000117676135001"]
         ];
     }
 
-    public function InvalidSheba(): array
+    public function InvalidIBan(): array
     {
         return [
-            ["asd"], ["123"], ["000000000000000000000000"],
+            ["asd"], ["123"], ["000000000000000000000000"], [""]
+        ];
+    }
+    // ============================== Card Validations ==============================
+
+    /**
+     * @dataProvider ValidCardNumber
+     */
+    public function test_valid_card(string $card)
+    {
+        $this->assertEquals(true, (new Pregex)->IsCardNumber($card));
+    }
+
+    /**
+     * @dataProvider InvalidCardNumber
+     */
+    public function test_invalid_card(string $card)
+    {
+        $this->assertEquals(false, (new Pregex)->IsCardNumber($card));
+    }
+
+    public function ValidCardNumber(): array
+    {
+        return [
+                ["5041721077783323"],
+        ];
+    }
+
+    public function InvalidCardNumber(): array
+    {
+        return [
+            ["5040721077783323"], ["0000000000000000"], ["000000000000000000000000"], [""],
+            ["1111111111111111"], ["2222222222222222"], ["3333333333333333"],
+            ["4444444444444444"], ["5555555555555555"], ["6666666666666666"],
+            ["7777777777777777"], ["8888888888888888"], ["9999999999999999"],
+            ["asd"], ["0123456789"], ["9999999999999999"],
         ];
     }
 

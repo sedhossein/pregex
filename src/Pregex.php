@@ -66,6 +66,32 @@ class Pregex
      */
     private static $writing_symptoms = '؟+=!@#$%^&*,،`"';
 
+    private static $banks_names = [
+        'bmi' => '603799',
+        'banksepah' => '589210',
+        'edbi' => '627648',
+        'bim' => '627961',
+        'bki' => '603770',
+        'bank-maskan' => '628023',
+        'postbank' => '627760',
+        'ttbank' => '502908',
+        'enbank' => '627412',
+        'parsian-bank' => '622106',
+        'bpi' => '502229',
+        'karafarinbank' => '627488',
+        'sb24' => '621986',
+        'sinabank' => '639346',
+        'sbank' => '639607',
+        'shahr-bank' => '502806',
+        'bank-day' => '502938',
+        'bsi' => '603769',
+        'bankmellat' => '610433',
+        'tejaratbank' => '627353',
+        'refah-bank' => '589463',
+        'ansarbank' => '627381',
+        'mebank' => '639370',
+        'resalat' => '504172',
+    ];
 
     public function IsPersianNumber(string $number): bool
     {
@@ -95,7 +121,7 @@ class Pregex
         return preg_match('/^(^((98)|(\+98)|0)?(9){1}[0-9]{9})+$/', $number);
     }
 
-    public function IsSheba($value): bool
+    public function IsIban(string $value): bool
     {
         if (empty($value)) {
             return false;
@@ -124,7 +150,7 @@ class Pregex
         return $tmpValue != 1 ? false : true;
     }
 
-    public function IsNationalCode($value): bool
+    public function IsNationalCode(string $value): bool
     {
         if (
             preg_match('/^\d{8,10}$/', $value) == false ||
@@ -152,6 +178,23 @@ class Pregex
         return $value[9] == $control ? true : false;
     }
 
+    public function IsCardNumber(string $value): bool
+    {
+        if (!preg_match('/^\d{16}$/', $value) || !in_array(substr($value,0,6), static::$banks_names)) {
+            return false;
+        }
+
+        $sum = 0;
+        for ($position = 1; $position <= 16; $position++) {
+            $temp = $value[$position - 1];
+            $temp = $position % 2 === 0 ? $temp : $temp * 2;
+            $temp = $temp > 9 ? $temp - 9 : $temp;
+            $sum += $temp;
+        }
+
+        return $sum % 10 === 0;
+    }
+
     /**
      * Validate persian texts with arabic chars
      * @param $string
@@ -160,25 +203,6 @@ class Pregex
     public static function is_persian_text(string $string): bool
     {
         return preg_match(self::get_text_regex(), $string);
-    }
-
-    /**
-     * @param $value
-     * @return bool
-     */
-    public function is_card_number($value): bool
-    {
-        if (!preg_match('/^\d{16}$/', $value)) {
-            return false;
-        }
-        $sum = 0;
-        for ($position = 1; $position <= 16; $position++) {
-            $temp = $value[$position - 1];
-            $temp = $position % 2 === 0 ? $temp : $temp * 2;
-            $temp = $temp > 9 ? $temp - 9 : $temp;
-            $sum += $temp;
-        }
-        return (bool)($sum % 10 === 0);
     }
 
     /**
