@@ -13,7 +13,7 @@
         }
     ],
     "require": {
-        "php": "^5.6.37 || ^7.0"
+        "php": "^7.2"
     },
     "keywords": ["PHP", "laravel", "Regex", "Persian Regex", "Pregex", "Sedhossein"],
     "require-dev" : {
