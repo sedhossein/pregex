@@ -8,12 +8,14 @@
 
 namespace Sedhossein\Pregex;
 
+use phpDocumentor\Reflection\Types\Boolean;
+
 /**
  * Class Pregex
  * Collection of Regex for validating, filtering, sanitizing and finding Persian strings
  * @package Sedhossein\Pregex
  */
-class Pregex
+class Pregex implements PersianValidator
 {
     /**
      * Persian numbers
@@ -26,45 +28,6 @@ class Pregex
      * @var string
      */
     private static $arabic_numbers_codepoints = '\x{0660}-\x{0669}';
-
-    /**
-     * Persian Alphabet
-     * @var string
-     */
-    private static $persian_alpha_codepoints = ' \x{0621}-\x{0628}\x{062A}-\x{063A}\x{0641}-\x{0642}\x{0644}-\x{0648}\x{064E}-\x{0651}\x{0655}\x{067E}\x{0686}\x{0698}\x{06A9}\x{06AF}\x{06BE}\x{06CC}';
-
-    /**
-     * This ranges include all kind of space,
-     * specially ZERO WIDTH NON-JOINER that use as half space
-     * and massively are using in Persian texts
-     * and NARROW NO-BREAK SPACE that is similar to previous character.
-     * @var string
-     */
-    private static $space_codepoints = ' \x{0020}\x{2000}-\x{200F}\x{2028}-\x{202F}';
-
-    /**
-     * Persian(Arabic) punctuation marks
-     * @var string
-     */
-    private static $punctuation_marks_codepoints = '\x{060C}\x{061B}\x{061F}\x{0640}\x{066A}\x{066B}\x{066C}';
-
-    /**
-     * Most used Arabic characters in Persian texts.
-     * @var string
-     */
-    private static $additional_arabic_characters_codepoints = ' \x{0629}\x{0643}\x{0649}-\x{064B}\x{064D}\x{06D5}\x{0647}\x{0654}';
-
-    /**
-     * Some Chars That They Are Not Exists In Above Limit Uni-Codes
-     * @var string
-     */
-    private static $special_chars = 'اآًَُِّْـ‌»«،؛؟هٔيأؤئء٬٫٪';
-
-    /**
-     * Writing Symptoms Characters
-     * @var string
-     */
-    private static $writing_symptoms = '؟+=!@#$%^&*,،`"';
 
     private static $banks_names = [
         'bmi' => '603799',
@@ -180,7 +143,7 @@ class Pregex
 
     public function IsCardNumber(string $value): bool
     {
-        if (!preg_match('/^\d{16}$/', $value) || !in_array(substr($value,0,6), static::$banks_names)) {
+        if (!preg_match('/^\d{16}$/', $value) || !in_array(substr($value, 0, 6), static::$banks_names)) {
             return false;
         }
 
@@ -200,49 +163,8 @@ class Pregex
         return preg_match("/^(\d{5}-?\d{5})$/", $value);
     }
 
-    /**
-     * Validate persian texts with arabic chars
-     * @param $string
-     * @return boolean
-     */
-    public static function is_persian_text(string $string): bool
+    public function IsPersian(string $value): bool
     {
-        return preg_match(self::get_text_regex(), $string);
-    }
-
-    /**
-     *  Check The All Conditions For An Persian/Arabic Texts,
-     *  Like: numbers, alphabets, marks, symptoms and so on ...
-     * @return string
-     */
-    protected static function get_text_regex(): string
-    {
-        return self::combine_regex_exps([
-            self::$persian_alpha_codepoints,
-            self::$space_codepoints,
-            self::$persian_number_codepoints,
-            self::$punctuation_marks_codepoints,
-            self::$additional_arabic_characters_codepoints,
-            self::$arabic_numbers_codepoints,
-            self::$special_chars,
-            self::$writing_symptoms,
-        ]);
-    }
-
-    /**
-     * Combine And Join The Multi Regex together For Make Final Regex
-     * in PERL Style Regular Expressions Mood
-     * @param $arguments
-     * @return string
-     */
-    private static function combine_regex_exps($arguments): string
-    {
-        $combined = '/[';
-
-        foreach ($arguments as $argument) {
-            $combined .= $argument;
-        }
-
-        return $combined . ']+$/um'; //support unicode and multi-line
+        return preg_match("/^[\x{600}-\x{6FF}\x{200c}\x{064b}\x{064d}\x{064c}\x{064e}\x{064f}\x{0650}\x{0651}\x{002E}\s]+$/u", $value);
     }
 }
