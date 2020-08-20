@@ -8,25 +8,10 @@
 
 namespace Sedhossein\Pregex;
 
-use phpDocumentor\Reflection\Types\Boolean;
-
-/**
- * Class Pregex
- * Collection of Regex for validating, filtering, sanitizing and finding Persian strings
- * @package Sedhossein\Pregex
- */
 class Pregex implements PersianValidator
 {
-    /**
-     * Persian numbers
-     * @var string
-     */
     private static $persian_number_codepoints = '\x{06F0}-\x{06F9}';
 
-    /**
-     * Arabic numbers
-     * @var string
-     */
     private static $arabic_numbers_codepoints = '\x{0660}-\x{0669}';
 
     private static $banks_names = [
