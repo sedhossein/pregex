@@ -1,10 +1,29 @@
+sudo: required
+
 language: php
 
 php:
-  - 7.0
-  - 7.1
-before_script:
-  - curl -s http://getcomposer.org/installer | php
-  - php composer.phar install --dev
+  - 7.3
+  - 7.4
 
-script: phpunit
+branches:
+  only:
+    - master
+
+before_script:
+  - composer install --no-interaction --no-suggest
+  - composer require php-coveralls/php-coveralls
+
+script:
+  - mkdir -p build/logs
+  - vendor/bin/phpunit --coverage-clover build/logs/clover.xml tests
+
+after_success:
+  - travis_retry php vendor/bin/php-coveralls -v
+
+notifications:
+  email:
+    recipients:
+      - seyedhosein77@gmail.com
+    on_success: change
+    on_failure: always

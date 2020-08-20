@@ -8,23 +8,23 @@
         {
             "name": "S.Hossein Hosseini (Sedhossein)",
             "email": "seyedhosein77@gmail.com" ,
-            "homepage": "http://sedhossein.ir",
-            "role": "Developer"
+            "homepage": "https://sedhossein.dev",
+            "role": "Software Engineer"
         }
     ],
     "require": {
-        "php": "^5.6.37 || ^7.0"
+        "php": "^7.2"
     },
-    "keywords": ["Laravel","Regex","Persian Regex","Pregex", "Sedhossein"],
+    "keywords": ["PHP", "laravel", "Regex", "Persian Regex", "Pregex", "Sedhossein"],
     "require-dev" : {
-        "phpunit/phpunit": "~4.0"
+        "phpunit/phpunit": "^9"
     },
     "autoload": {
         "psr-4": {
             "Sedhossein\\Pregex\\": "src"
         },
-        "files": [
-            "src/helpers.php"
+        "classmap": [
+            "src"
         ]
     },
     "autoload-dev": {
@@ -32,5 +32,4 @@
             "Sedhossein\\Pregex\\Tests\\": "tests/"
         }
     }
-
 }

@@ -1,7 +1,18 @@
-# WIP: pregex (Persian Regex)
+# pregex: Find any Regular Expresion for Persian|Iranian|Farsi Guys
 ***
 
-This Lib Contain The list of some Persian/iranian Regex's in just one library.
+### TODO: 
+- Add travisCI for project
+- Improve documentation
+- Add badges
+- Documentation
+
+ ---
+ 
+[![Build Status](https://travis-ci.org/sedhossein/pregex.svg?branch=master)](https://travis-ci.org/sedhossein/pregex)
+[![Coverage Status](https://coveralls.io/repos/github/sedhossein/pregex/badge.svg?branch=master)](https://coveralls.io/github/sedhossein/pregex?branch=master)
+ 
+This Lib Contain The list of Persian/Farsi Regex's and validations in just one library.
 
 
 
@@ -20,7 +31,7 @@ This Lib Contain The list of some Persian/iranian Regex's in just one library.
 ```
 
 ```php
-   public function is_mobile_number(string $number): bool
+    public function is_mobile_number(string $number): bool
 ```
 
 ```php
@@ -36,16 +47,5 @@ This Lib Contain The list of some Persian/iranian Regex's in just one library.
 ```
 
 ```php
-   public function is_postal_card($value): bool
+    public function is_postal_card($value): bool
 ```
-
-    
-
-### TODO's 
-- [ ] installation
-- [ ] versioning
-- [x] Methods
-- [ ] Usages, Samples
-- [ ] improve test coverage
-- [ ] refactoring
-
