@@ -16,29 +16,29 @@ class Pregex implements PersianValidator
 
     private static $banks_names = [
         'bmi' => '603799',
-        'banksepah' => '589210',
-        'edbi' => '627648',
         'bim' => '627961',
         'bki' => '603770',
-        'bank-maskan' => '628023',
-        'postbank' => '627760',
+        'bpi' => '502229',
+        'bsi' => '603769',
+        'edbi' => '627648',
+        'sb24' => '621986',
+        'sbank' => '639607',
         'ttbank' => '502908',
         'enbank' => '627412',
-        'parsian-bank' => '622106',
-        'bpi' => '502229',
-        'karafarinbank' => '627488',
-        'sb24' => '621986',
-        'sinabank' => '639346',
-        'sbank' => '639607',
-        'shahr-bank' => '502806',
-        'bank-day' => '502938',
-        'bsi' => '603769',
-        'bankmellat' => '610433',
-        'tejaratbank' => '627353',
-        'refah-bank' => '589463',
-        'ansarbank' => '627381',
         'mebank' => '639370',
         'resalat' => '504172',
+        'bank-day' => '502938',
+        'postbank' => '627760',
+        'sinabank' => '639346',
+        'banksepah' => '589210',
+        'ansarbank' => '627381',
+        'refah-bank' => '589463',
+        'bankmellat' => '610433',
+        'shahr-bank' => '502806',
+        'bank-maskan' => '628023',
+        'tejaratbank' => '627353',
+        'parsian-bank' => '622106',
+        'karafarinbank' => '627488',
     ];
 
     public function IsPersianNumber(string $number): bool
@@ -148,7 +148,7 @@ class Pregex implements PersianValidator
         return preg_match("/^(\d{5}-?\d{5})$/", $value);
     }
 
-    public function IsPersian(string $value): bool
+    public function IsPersianText(string $value): bool
     {
         return preg_match("/^[\x{600}-\x{6FF}\x{200c}\x{064b}\x{064d}\x{064c}\x{064e}\x{064f}\x{0650}\x{0651}\x{002E}\s]+$/u", $value);
     }

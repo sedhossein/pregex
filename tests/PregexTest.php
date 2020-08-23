@@ -324,7 +324,7 @@ final class PregexTest extends TestCase
      */
     public function test_valid_persian_text(string $string)
     {
-        $this->assertEquals(true, (new Pregex)->IsPersian($string));
+        $this->assertEquals(true, (new Pregex)->IsPersianText($string));
     }
 
     /**
@@ -332,7 +332,7 @@ final class PregexTest extends TestCase
      */
     public function test_invalid_persian_text(string $string)
     {
-        $this->assertEquals(false, (new Pregex)->IsPersian($string));
+        $this->assertEquals(false, (new Pregex)->IsPersianText($string));
     }
 
     public function valid_persian_texts(): array
@@ -354,11 +354,11 @@ final class PregexTest extends TestCase
     {
         return [
             ['persian finglish'],
+            ['1234 اعدادی فارسی اند'],
+            ['٠56اعدادی عربی-فارسی نیستند'],
             ['تست، قواعدی: و نگارشی پشت ژرفای ثبت.دست‌؛ab یالا؟'],
             ['qwتست، قواعدی: و نگارشی پشت ژرفای ثبت.دست‌؛ یالا؟'],
             ['qwتست، قواعدی: و نگارشی پشت ژرفای ثبت.دست‌؛ یالا؟ew'],
-            ['1234 اعدادی فارسی اند'],
-            ['٠56اعدادی عربی-فارسی نیستند'],
         ];
     }
 }

@@ -2,7 +2,6 @@
 ***
 
 ### TODO: 
-- Add travisCI for project
 - Improve documentation
 - Add badges
 - Documentation
