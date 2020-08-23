@@ -2,8 +2,9 @@
  
 [![Build Status](https://travis-ci.org/sedhossein/pregex.svg?branch=master)](https://travis-ci.org/sedhossein/pregex)
 [![Coverage Status](https://coveralls.io/repos/github/sedhossein/pregex/badge.svg?branch=master)](https://coveralls.io/github/sedhossein/pregex?branch=master)
-[![Version](https://poser.pugx.org/sedhossein/pregex/version)](//packagist.org/packages/sedhossein/pregex)
-[![Total Downloads](https://poser.pugx.org/sedhossein/pregex/downloads)](//packagist.org/packages/sedhossein/pregex)
+[![Version](https://poser.pugx.org/sedhossein/pregex/version)](https://packagist.org/packages/sedhossein/pregex)
+[![Total Downloads](https://poser.pugx.org/sedhossein/pregex/downloads)](https://packagist.org/packages/sedhossein/pregex)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/sedhossein/pregex/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/sedhossein/pregex/?branch=master)
 [![License](https://poser.pugx.org/sedhossein/pregex/license)](//packagist.org/packages/sedhossein/pregex)
 
 
