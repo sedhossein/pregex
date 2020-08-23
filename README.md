@@ -1,4 +1,4 @@
-## Pregex: Find any Regular Expressions that you need for Persian|Iranian|Farsi issues
+## Pregex: Claim any Persian|Iranian|Farsi Regular Expressions that you need
  
 [![Build Status](https://travis-ci.org/sedhossein/pregex.svg?branch=master)](https://travis-ci.org/sedhossein/pregex)
 [![Coverage Status](https://coveralls.io/repos/github/sedhossein/pregex/badge.svg?branch=master)](https://coveralls.io/github/sedhossein/pregex?branch=master)
