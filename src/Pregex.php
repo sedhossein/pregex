@@ -98,6 +98,9 @@ class Pregex implements PersianValidator
         return $tmpValue != 1 ? false : true;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function IsNationalCode(string $value): bool
     {
         if (

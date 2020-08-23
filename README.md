@@ -3,8 +3,6 @@
 
 ### TODO: 
 - Improve documentation
-- Add badges
-- Documentation
 
  ---
  
