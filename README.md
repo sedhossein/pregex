@@ -9,7 +9,7 @@
 
  ---
  
-[![Build Status](https://travis-ci.org/sedhossein/pregex.svg?branch=master)](https://travis-ci.org/sedhossein/pregex)
+[![Build Status](https://travis-ci.com/sedhossein/pregex.svg?branch=master)](https://travis-ci.com/sedhossein/pregex)
 [![Coverage Status](https://coveralls.io/repos/github/sedhossein/pregex/badge.svg?branch=master)](https://coveralls.io/github/sedhossein/pregex?branch=master)
  
 This Lib Contain The list of Persian/Farsi Regex's and validations in just one library.
