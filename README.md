@@ -7,8 +7,9 @@
 [![License](https://poser.pugx.org/sedhossein/pregex/license)](//packagist.org/packages/sedhossein/pregex)
 
 
-## quick access
-- [Introduction](#Introduction)
+## Quick Access
+- [Introduction](#introduction)
+- [Requirements](#requirements)
 - [How to use](#how-to-use)
     -  [List of methods](#list-of-methods)
 - [Installation](#how-to-install)
@@ -19,6 +20,10 @@
 If you having a Persian/Iranian project and need to validate your inputs this light library can help you. 
 Pregex try to make a complete collection of Persian/Iranian validations to make it easy for you. 
 Please kindly feeling free to get in touch with me for any idea you have, or open issue/PR to any bug reporting/fixing.
+
+### Requirements
+- composer
+- PHP 7.2 >=
 
 ### How to use
 Pregex prepared the bellow methods list to give you all you need for your validations.
