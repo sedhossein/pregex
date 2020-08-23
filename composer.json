@@ -21,7 +21,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Sedhossein\\Pregex\\": "src"
+            "Sedhossein\\Pregex\\": "src",
+            "Sedhossein\\Pregex\\\\Tests\\": "tests/"
         },
         "classmap": [
             "src"

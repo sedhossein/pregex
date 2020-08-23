@@ -2,5 +2,6 @@
 .env.php
 .env
 .idea
+build/*
 vendor
 .phpunit.result.cache
