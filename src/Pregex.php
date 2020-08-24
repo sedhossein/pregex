@@ -61,7 +61,7 @@ class Pregex implements PersianValidator
 
     public function IsEmail(string $email): bool
     {
-        return filter_var($email, FILTER_VALIDATE_EMAIL);
+        return (bool)filter_var($email, FILTER_VALIDATE_EMAIL);
     }
 
     public function IsCellphone(string $number): bool

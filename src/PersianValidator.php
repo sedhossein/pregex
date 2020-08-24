@@ -23,4 +23,13 @@ interface PersianValidator
     function IsPostalCode(string $value): bool;
 
     function IsPersianText(string $value): bool;
+
+    // TODO:
+    function IsPersianName(string $name): bool;
+
+    function IsPersianAddress(string $address): bool;
+
+    function IsPersianAlphabet(string $chars): bool;
+
+    function IsNonPhone(string $value): bool;
 }
