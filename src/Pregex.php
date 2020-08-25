@@ -43,17 +43,17 @@ class Pregex implements PersianValidator
 
     public function IsPersianNumber(string $number): bool
     {
-        return preg_match("/(^[" . self::$persian_number_codepoints . "]+$)/u", $number);
+        return (bool)preg_match("/(^[" . self::$persian_number_codepoints . "]+$)/u", $number);
     }
 
     public function IsArabicNumber(string $number): bool
     {
-        return preg_match("/(^[" . self::$arabic_numbers_codepoints . "]+$)/u", $number);
+        return (bool)preg_match("/(^[" . self::$arabic_numbers_codepoints . "]+$)/u", $number);
     }
 
     public function IsPersianOrArabicNumber(string $number): bool
     {
-        return preg_match("/(^[" .
+        return (bool)preg_match("/(^[" .
             self::$arabic_numbers_codepoints .
             self::$persian_number_codepoints .
             "]+$)/u", $number);
@@ -66,7 +66,7 @@ class Pregex implements PersianValidator
 
     public function IsCellphone(string $number): bool
     {
-        return preg_match('/^(^((98)|(\+98)|0)?(9){1}[0-9]{9})+$/', $number);
+        return (bool)preg_match('/^(^((98)|(\+98)|0)?(9){1}[0-9]{9})+$/', $number);
     }
 
     public function IsIban(string $value): bool
@@ -148,11 +148,11 @@ class Pregex implements PersianValidator
 
     public function IsPostalCode(string $value): bool
     {
-        return preg_match("/^(\d{5}-?\d{5})$/", $value);
+        return (bool)preg_match("/^(\d{5}-?\d{5})$/", $value);
     }
 
     public function IsPersianText(string $value): bool
     {
-        return preg_match("/^[\x{600}-\x{6FF}\x{200c}\x{064b}\x{064d}\x{064c}\x{064e}\x{064f}\x{0650}\x{0651}\x{002E}\s]+$/u", $value);
+        return (bool)preg_match("/^[\x{600}-\x{6FF}\x{200c}\x{064b}\x{064d}\x{064c}\x{064e}\x{064f}\x{0650}\x{0651}\x{002E}\s]+$/u", $value);
     }
 }

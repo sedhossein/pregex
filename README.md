@@ -1,14 +1,16 @@
-## Pregex: Find any Regular Expressions that you need for Persian|Iranian|Farsi issues
+## Pregex: Claim any Persian|Iranian|Farsi Regular Expressions that you need
  
 [![Build Status](https://travis-ci.org/sedhossein/pregex.svg?branch=master)](https://travis-ci.org/sedhossein/pregex)
 [![Coverage Status](https://coveralls.io/repos/github/sedhossein/pregex/badge.svg?branch=master)](https://coveralls.io/github/sedhossein/pregex?branch=master)
-[![Version](https://poser.pugx.org/sedhossein/pregex/version)](//packagist.org/packages/sedhossein/pregex)
-[![Total Downloads](https://poser.pugx.org/sedhossein/pregex/downloads)](//packagist.org/packages/sedhossein/pregex)
+[![Version](https://poser.pugx.org/sedhossein/pregex/version)](https://packagist.org/packages/sedhossein/pregex)
+[![Total Downloads](https://poser.pugx.org/sedhossein/pregex/downloads)](https://packagist.org/packages/sedhossein/pregex)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/sedhossein/pregex/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/sedhossein/pregex/?branch=master)
 [![License](https://poser.pugx.org/sedhossein/pregex/license)](//packagist.org/packages/sedhossein/pregex)
 
 
-## quick access
-- [Introduction](#Introduction)
+## Quick Access
+- [Introduction](#introduction)
+- [Requirements](#requirements)
 - [How to use](#how-to-use)
     -  [List of methods](#list-of-methods)
 - [Installation](#how-to-install)
@@ -21,6 +23,11 @@
 If you having a Persian/Iranian project and need to validate your inputs this light library can help you. 
 Pregex try to make a complete collection of Persian/Iranian validations to make it easy for you. 
 Please kindly feeling free to get in touch with me for any idea you have, or open issue/PR to any bug reporting/fixing.
+
+
+### Requirements
+- composer
+- PHP 7.2 >=
 
 
 ### How to use
