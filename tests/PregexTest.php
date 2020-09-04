@@ -312,7 +312,7 @@ final class PregexTest extends TestCase
     public function InvalidPostalCode(): array
     {
         return [
-            ["123456789"], ["00000--00000"], ["asd"], ["9999999999999999"],
+            ["123456789"], ["00000--00000"], ["asd"], ["9999999999999999"], [""],
         ];
     }
 
@@ -354,6 +354,7 @@ final class PregexTest extends TestCase
     public function invalid_persian_texts(): array
     {
         return [
+            [''],
             ['persian finglish'],
             ['1234 اعدادی فارسی اند'],
             ['٠56اعدادی عربی-فارسی نیستند'],
@@ -363,5 +364,167 @@ final class PregexTest extends TestCase
         ];
     }
 
-    // TODO: tests
+    // ============================== Persian alphabets validations ==============================
+
+    /**
+     * @dataProvider valid_persian_alphabets
+     */
+    public function test_valid_persian_alphabet(string $string)
+    {
+        $this->assertEquals(true, (new Pregex)->IsPersianAlphabet($string));
+    }
+
+    /**
+     * @dataProvider invalid_persian_alphabets
+     */
+    public function test_invalid_persian_alphabet(string $string)
+    {
+        $this->assertEquals(false, (new Pregex)->IsPersianAlphabet($string));
+    }
+
+    public function valid_persian_alphabets(): array
+    {
+        return [
+            ['ح'],
+            ['ەيىكًٍ'],
+            ['گچپژ'],
+            ['بسم الله'],
+            ['یک متن بسیار ساده'],
+            ['تست با فاصله و نیم‌فاصله '],
+            ['ءآأؤإئابتثجحخدذرزسشصضطظعغفقلمنهوَُِّٕپچژکگھی'],
+            ['قطعاً همه مئمنیم درّ گران بهاییْ هستندُ جهتِ تستیـ بهتر'],
+        ];
+    }
+
+    public function invalid_persian_alphabets(): array
+    {
+        return [
+            [''],
+            ['۱۲۳'],
+            ['،؛؟ـ٪٫٬'],
+            ['ممد ۱۲۳ ممد'],
+            ['.'], ['!'], ['#'], ['﷼'],
+            ['%'], ['&'], ['*'], ['^'], ['?'],
+        ];
+    }
+
+    // ============================== Name validations ==============================
+
+    /**
+     * @dataProvider valid_persian_names
+     */
+    public function test_valid_persian_name(string $string)
+    {
+        $len = strlen($string);
+
+        $this->assertLessThanOrEqual(Pregex::$nameMaxLimit, $len);
+        $this->assertGreaterThan(Pregex::$nameMinLimit, $len);
+        $this->assertEquals(true, (new Pregex)->IsPersianName($string), "names");
+    }
+
+    /**
+     * @dataProvider invalid_persian_names
+     */
+    public function test_invalid_persian_name(string $string)
+    {
+        $this->assertEquals(false, (new Pregex)->IsPersianName($string));
+    }
+
+    public function valid_persian_names(): array
+    {
+        return [
+            ['سدحسین'],
+            ['علی ممد‌پور'],
+            ['سید حسین حسینی'],
+            ['سید محمد ابوالقاسم اصغر نژاد علی'],
+        ];
+    }
+
+    public function invalid_persian_names(): array
+    {
+        return [
+            ['م'], [''], ['ممد؟'], ['ممد. ممدی'], ['ممد با عدد۲'],
+            ['ممد مممدممد مممدممد مممدممد مممدممد مممدممد مممدممد مممدممد مممدممد مممدممد مممدممد مممدممد مممدممد مممد ممدی'],
+        ];
+    }
+
+    // ============================== Without Persian Alphabet validations ==============================
+
+    /**
+     * @dataProvider test_invalid_without_persian_alphabet
+     */
+    public function test_valid_without_persian_alphabet(string $string)
+    {
+        $this->assertEquals(true, (new Pregex)->IsWithoutPersianAlphabet($string));
+    }
+
+    /**
+     * @dataProvider invalid_without_persian_alphabets
+     */
+    public function test_invalid_without_persian_alphabet(string $string)
+    {
+        $this->assertEquals(false, (new Pregex)->IsWithoutPersianAlphabet($string));
+    }
+
+    public function valid_without_persian_alphabets(): array
+    {
+        return [
+            ['We wanna get an english text as an input without any persian or arabic alphabets'],
+            ['It could consider all of numbers, chars, punctuation marks'],
+            ['Every english letter and char is valid, like: 123, 0912'],
+            ['Or marks like: ? ! . # @ and so - on ...'],
+            ['":)))"'],
+        ];
+    }
+
+    public function invalid_without_persian_alphabets(): array
+    {
+        return [
+            ['And persian char between english text اینجا.'],
+            ['م'], ['Or persian punctuation marks like: ؟'],
+            ['Or persian numbers: ۱۲۳۴۵۶۷۸۹'],
+            ['Also arabic numbers: ١٠٢٣٤٥٦٧٨٩'],
+            ['یا یک متن فارسی تمام'],
+        ];
+    }
+
+    // ============================== Without Persian Number validations ==============================
+
+    /**
+     * @dataProvider valid_without_persian_numbers
+     */
+    public function test_valid_without_persian_number(string $string)
+    {
+        $this->assertEquals(true, (new Pregex)->IsWithoutNumber($string));
+    }
+
+    /**
+     * @dataProvider invalid_without_persian_numbers
+     */
+    public function test_invalid_without_persian_number(string $string)
+    {
+        $this->assertEquals(false, (new Pregex)->IsWithoutNumber($string));
+    }
+
+    public function valid_without_persian_numbers(): array
+    {
+        return [
+            ['The long text with lot of marks. Right? ok! Lets go, I\'m ready ;)'],
+            ['And also lot of numbers: 123, 312, 0'],
+            ['حتی متن فارسی بلند و طویلی که. اماده؟ هر جیزی! هست: باشه٪'],
+            ['عدد انگلیسی هم خوبه:‌123'],
+            ['678'],
+        ];
+    }
+
+    public function invalid_without_persian_numbers(): array
+    {
+        return [
+            ['Also arabic numbers: ١٠٢٣٤٥٦٧٨٩'],
+            ['Or persian numbers: ۱۲۳۴۵۶۷۸۹'],
+            ['اما اینجا عدد داریم ۱۲۳'],
+            ['١٠٢٣٤٥٦٧٨٩'],
+            ['۱۲۳۴۵۶۷۸۹'],
+        ];
+    }
 }
