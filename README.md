@@ -14,17 +14,21 @@
 - [How to use](#how-to-use)
     -  [List of methods](#list-of-methods)
 - [Installation](#how-to-install)
+- [Run Tests](#run-tests)
 - [TODO list](#todo-list)
 - [License](#license)
+
 
 ### Introduction
 If you having a Persian/Iranian project and need to validate your inputs this light library can help you. 
 Pregex try to make a complete collection of Persian/Iranian validations to make it easy for you. 
 Please kindly feeling free to get in touch with me for any idea you have, or open issue/PR to any bug reporting/fixing.
 
+
 ### Requirements
 - composer
 - PHP 7.2 >=
+
 
 ### How to use
 Pregex prepared the bellow methods list to give you all you need for your validations.
@@ -73,19 +77,13 @@ function IsCellphone(string $number): bool;
 ```php
 function IsIban(string $value): bool;
 ```
-`IsIban` or also `Sheba` validate Iranian bank Ibans
+`IsIban` or also `Sheba` or `International Bank Account Number (IBAN).` validate Iranian bank Ibans
 
 ---
 ```php
 function IsNationalCode(string $value): bool;
 ```
 `IsNationalCode` or also `Melli Code!` validate Iranian national codes
-
----
-```php
-function IsCardNumber(string $value): bool;
-```
-`IsCardNumber` validate Iranian bank card numbers
 
 ---
 ```php
@@ -107,14 +105,27 @@ function IsPersianText(string $value): bool;
 
 ### How to install
 Install [Composer](https://getcomposer.org) and run following command in your project's root directory:
-
 ```bash
 composer require sedhossein/pregex
 ```
 
 
+### Run Tests
+After installing [Composer](https://getcomposer.org), Clone Pregex Repo and then go to project path(`cd pregex`).
+Now enter:
+```bash
+composer install
+```
+Now you fetch all of package dependencies, and you can run bellow command to run tests:
+```bash
+./vendor/phpunit/phpunit/phpunit  --coverage-html ./build/tests/coverage.html
+```
+So after running above command you can see coverage report on `./build/tests/coverage.html`
+
+
 ### TODO list: 
 - [ ] Comparing with other libraries to add more features
+
 
 ### license
 Pregex is initially created by [Sedhossein](https://sedhossein.dev) and released under the [MIT License](http://opensource.org/licenses/mit-license.php).

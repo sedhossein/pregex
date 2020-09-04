@@ -4,23 +4,31 @@ namespace Sedhossein\Pregex;
 
 interface PersianValidator
 {
-    function IsPersianNumber(string $number): bool;
+    public function IsPersianNumber(string $number): bool;
 
-    function IsArabicNumber(string $number): bool;
+    public function IsArabicNumber(string $number): bool;
 
-    function IsPersianOrArabicNumber(string $number): bool;
+    public function IsPersianOrArabicNumber(string $number): bool;
 
-    function IsEmail(string $email): bool;
+    public function IsEmail(string $email): bool;
 
-    function IsCellphone(string $number): bool;
+    public function IsCellphone(string $number): bool;
 
-    function IsIban(string $value): bool;
+    public function IsIban(string $value): bool;
 
-    function IsNationalCode(string $value): bool;
+    public function IsNationalCode(string $value): bool;
 
-    function IsCardNumber(string $value): bool;
+    public function IsCardNumber(string $value): bool;
 
-    function IsPostalCode(string $value): bool;
+    public function IsPostalCode(string $value): bool;
 
-    function IsPersianText(string $value): bool;
+    public function IsPersianText(string $value): bool;
+
+    public function IsPersianName(string $name): bool;
+
+    public function IsPersianAlphabet(string $chars): bool;
+
+    public function IsWithoutPersianAlphabet(string $value): bool;
+
+    public function IsWithoutNumber(string $value): bool;
 }

@@ -10,9 +10,17 @@ namespace Sedhossein\Pregex;
 
 class Pregex implements PersianValidator
 {
-    private static $persian_number_codepoints = '\x{06F0}-\x{06F9}';
+    private static $persian_numbers = '\x{06F0}-\x{06F9}';
 
-    private static $arabic_numbers_codepoints = '\x{0660}-\x{0669}';
+    private static $arabic_numbers = '\x{0660}-\x{0669}';
+
+    private static $persian_alphabets = '\x{0621}-\x{06CC}';
+
+    private static $persian_text = '\x{0600}-\x{06FF}';
+
+    private static $arabic_common_chars = "\x{0629}\x{0643}\x{0649}-\x{064B}\x{064D}\x{06D5}";
+
+    private static $spaces = '\x{0020}\x{2000}-\x{200F}\x{2028}-\x{202F}';
 
     private static $banks_names = [
         'bmi' => '603799',
@@ -41,27 +49,31 @@ class Pregex implements PersianValidator
         'karafarinbank' => '627488',
     ];
 
+    public static $nameMaxLimit = 60;
+
+    public static $nameMinLimit = 3;
+
     public function IsPersianNumber(string $number): bool
     {
-        return (bool)preg_match("/(^[" . self::$persian_number_codepoints . "]+$)/u", $number);
+        return (bool)preg_match("/(^[" . self::$persian_numbers . "]+$)/u", $number);
     }
 
     public function IsArabicNumber(string $number): bool
     {
-        return (bool)preg_match("/(^[" . self::$arabic_numbers_codepoints . "]+$)/u", $number);
+        return (bool)preg_match("/(^[" . self::$arabic_numbers . "]+$)/u", $number);
     }
 
     public function IsPersianOrArabicNumber(string $number): bool
     {
         return (bool)preg_match("/(^[" .
-            self::$arabic_numbers_codepoints .
-            self::$persian_number_codepoints .
+            self::$arabic_numbers .
+            self::$persian_numbers .
             "]+$)/u", $number);
     }
 
     public function IsEmail(string $email): bool
     {
-        return filter_var($email, FILTER_VALIDATE_EMAIL);
+        return (bool)filter_var($email, FILTER_VALIDATE_EMAIL);
     }
 
     public function IsCellphone(string $number): bool
@@ -153,6 +165,46 @@ class Pregex implements PersianValidator
 
     public function IsPersianText(string $value): bool
     {
-        return (bool)preg_match("/^[\x{600}-\x{6FF}\x{200c}\x{064b}\x{064d}\x{064c}\x{064e}\x{064f}\x{0650}\x{0651}\x{002E}\s]+$/u", $value);
+        return (bool)preg_match("/^[" .
+            self::$persian_text
+            . "\x{200c}\x{064b}\x{064d}\x{064c}\x{064e}\x{064f}\x{0650}\x{0651}\x{002E}" .
+            "\s]+$/u", $value);
+    }
+
+    public function IsPersianAlphabet(string $chars): bool
+    {
+        return (bool)preg_match("/(^[" .
+            self::$arabic_common_chars .
+            self::$persian_alphabets .
+            self::$spaces .
+            "]+$)/u", $chars);
+    }
+
+    public function IsPersianName(string $name): bool
+    {
+        $nameLen = strlen($name);
+
+        return $this->IsPersianAlphabet($name) &&
+            $nameLen <= self::$nameMaxLimit &&
+            $nameLen >= self::$nameMinLimit;
+    }
+
+    public function IsWithoutPersianAlphabet(string $value): bool
+    {
+        $hasPersianChar = (bool)preg_match("/[" .
+            self::$persian_text .
+            "]/u", $value);
+
+        return !$hasPersianChar;
+    }
+
+    public function IsWithoutNumber(string $value): bool
+    {
+        $hasPersianNumber = (bool)preg_match("/([" .
+            self::$persian_numbers .
+            self::$arabic_numbers .
+            "]+)/u", $value);
+
+        return !$hasPersianNumber;
     }
 }
