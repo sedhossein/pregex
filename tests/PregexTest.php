@@ -203,6 +203,9 @@ final class PregexTest extends TestCase
         return [
             // TODO: this repo tested with personal national code,
             // but for security issues i ignore this test on open-source
+            ["0012345679"],
+            ["1234567891"],
+            ["0499528654"],
         ];
     }
 
@@ -212,7 +215,11 @@ final class PregexTest extends TestCase
             ["0000000000"], ["1111111111"], ["2222222222"],
             ["3333333333"], ["4444444444"], ["5555555555"],
             ["6666666666"], ["7777777777"], ["8888888888"],
-            ["9999999999"], [""]
+            ["9999999999"], [""],
+            ["0012345670"], // incorrect control digit
+            ["1234567"],    // too short
+            ["12345678901"],// too long
+            ["abcdefghij"], // non-numeric
         ];
     }
 
@@ -451,7 +458,7 @@ final class PregexTest extends TestCase
     // ============================== Without Persian Alphabet validations ==============================
 
     /**
-     * @dataProvider test_invalid_without_persian_alphabet
+     * @dataProvider valid_without_persian_alphabets
      */
     public function test_valid_without_persian_alphabet(string $string)
     {
